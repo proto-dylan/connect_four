@@ -32,6 +32,7 @@ describe ConnectFour do
             col = 0
             game.place_piece(1, row, col)
             expect(game.board[0][0]).to eql(1)
+           
         end
     end
     describe '#drop_piece' do
@@ -40,15 +41,27 @@ describe ConnectFour do
         it "drops piece to the lowest open row from top of column 1" do
             col = 0
             newgame.drop_piece(1, col)
-            expect(newgame.board[5][0]).to eql(1)
+            newgame.display
+            expect(newgame.board).to match_array([
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0], 
+                [0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0]
+              ])
+            
         end
+        
         it "drops piece on top of previous" do
             col = 0 
             newgame.drop_piece(2, col)
-            expect(newgame.board[4][0]).to eql(1)
+            newgame.display
+            expect(newgame.board[4][0]).to eql(2)
+           
         end
     end
-    /describe '#take_turn' do
+    describe '#take_turn' do
         newgame1 = ConnectFour.new
 
         it "prompts player 1 first" do
@@ -92,36 +105,34 @@ describe ConnectFour do
 
         end
 
-    end/
+    end
 
     describe '#array_win_check' do
 
         it "sends 0 for fail" do
             newgame = ConnectFour.new
-        array = [1,1,2,2,0,1]
-        win = newgame.array_win_check(array)
-        expect(win).to eql(0)
+            array = [1,1,2,2,0,1]
+            win = newgame.array_win_check(array)
+            expect(win).to eql(0)
         end
         it "sends 1 for 1 win" do
             newgame = ConnectFour.new
-        array = [1,1,1,1,0,2]
-        win = newgame.array_win_check(array)
-        expect(win).to eql(1)
+            array = [1,1,1,1,0,2]
+            win = newgame.array_win_check(array)
+            expect(win).to eql(1)
         end
         it "sends 2 for 2 win" do
             newgame = ConnectFour.new
-        array = [1,1,2,2,2,2]
-        win = newgame.array_win_check(array)
-        expect(win).to eql(2)
+            array = [1,1,2,2,2,2]
+            win = newgame.array_win_check(array)
+            expect(win).to eql(2)
         end
         
     end
 
     describe '#diag_check' do
         newgame = ConnectFour.new
-
         it "returns appropriate diag array" do
-
             newgame.board = [
                 [0, 0, 0, 0, 0, 0, 0],
                 [1, 1, 1, 1, 0, 0, 0],
@@ -130,19 +141,15 @@ describe ConnectFour do
                 [1, 0, 0, 0, 0, 1, 0],
                 [1, 2, 2, 1, 1, 0, 0]
             ]
-
             array = newgame.diag_check
-            expect(array).to eql(0)
-        
+            expect(array).to eql(0)        
         end
-
-
     end
+
 
     describe '#win_check' do
         newgame3 = ConnectFour.new
-
-        /it "checks for a  fail" do
+        it "checks for a  fail" do
             newgame3.board = [
                 [1, 0, 0, 0, 0, 0, 0],
                 [1, 0, 0, 0, 0, 0, 0],
@@ -151,12 +158,10 @@ describe ConnectFour do
                 [1, 0, 0, 0, 0, 1, 0],
                 [1, 2, 2, 1, 1, 0, 0]
               ]
-              newgame3.display
+              #newgame3.display
               win = newgame3.win_check
               expect(win).to eql(0)
-
         end
-
         it "checks for a win of 4 horizontal pieces" do
             newgame3.board = [
                 [1, 0, 0, 0, 0, 0, 0],
@@ -166,10 +171,9 @@ describe ConnectFour do
                 [0, 0, 1, 1, 1, 1, 0],
                 [1, 2, 2, 1, 1, 0, 0]
               ]
-              newgame3.display
+              #newgame3.display
               win = newgame3.win_check
               expect(win).to eql(1)
-
         end
         it "checks for a win of 4 horizontal pieces" do
             newgame3.board = [
@@ -180,15 +184,10 @@ describe ConnectFour do
                 [1, 1, 1, 1, 0, 0, 0],
                 [1, 2, 2, 1, 1, 0, 0]
               ]
-              newgame3.display
+              #newgame3.display
               win = newgame3.win_check
               expect(win).to eql(1)
-
-        end
-       
-
-
-
+        end      
         it "checks for vertical fail" do
             newgame3.board =  [
                 [1, 0, 0, 0, 0, 0, 0],
@@ -198,12 +197,10 @@ describe ConnectFour do
                 [1, 1, 0, 1, 0, 0, 0],
                 [1, 2, 2, 1, 1, 0, 0]
               ]
-              newgame3.display
+              #newgame3.display
               win = newgame3.win_check
               expect(win).to eql(0)  
         end
-
-
        it "checks for vertical win" do
             newgame3.board =  [
                 [1, 0, 0, 0, 0, 0, 0],
@@ -213,10 +210,10 @@ describe ConnectFour do
                 [1, 1, 0, 1, 0, 0, 0],
                 [1, 2, 2, 1, 1, 0, 0]
               ]
-              newgame3.display
+              #newgame3.display
               win = newgame3.win_check
               expect(win).to eql(1)  
-        end/
+        end
         it "checks for diagonal win [0][2]to[3][5]" do
             newgame3.board =  [
                 [1, 0, 0, 0, 0, 0, 0],
@@ -226,13 +223,24 @@ describe ConnectFour do
                 [1, 1, 1, 0, 0, 0, 0],
                 [1, 2, 2, 1, 1, 0, 0]
             ]
-            newgame3.display
+            #newgame3.display
             win = newgame3.win_check
             expect(win).to eql(1)
-
         end
-
-        it "checks for diagonal win [3][5]to[6][5]" do
+        it "checks for diagonal fail" do
+            newgame3.board =  [
+                [1, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 1, 0, 0, 0], 
+                [2, 0, 0, 1, 0, 0, 0],
+                [1, 1, 1, 0, 0, 1, 0],
+                [1, 2, 2, 1, 1, 0, 1]
+            ]
+            #newgame3.display
+            win = newgame3.win_check
+            expect(win).to eql(0)
+        end
+        it "checks for diagonal win [3][2]to[6][5]" do
             newgame3.board =  [
                 [1, 0, 0, 0, 0, 0, 0],
                 [1, 0, 0, 0, 0, 0, 0],
@@ -241,12 +249,38 @@ describe ConnectFour do
                 [1, 1, 1, 0, 0, 1, 0],
                 [1, 2, 2, 1, 1, 0, 1]
             ]
-            newgame3.display
+           #newgame3.display
             win = newgame3.win_check
             expect(win).to eql(1)
-
+        end
+        it "checks for diagonal win [6][2]to[3][5]" do
+            newgame3.board =  [
+                [1, 0, 0, 0, 0, 0, 0],
+                [1, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 1], 
+                [2, 0, 0, 0, 1, 1, 0],
+                [1, 1, 1, 0, 1, 1, 0],
+                [1, 2, 2, 1, 1, 0, 1]
+            ]
+            #newgame3.display
+            win = newgame3.win_check
+            expect(win).to eql(1)
+        end
+        it "checks for diagonal win [4][0]to[1][3]" do
+            newgame3.board =  [
+                [1, 0, 0, 0, 1, 0, 0],
+                [1, 0, 0, 1, 0, 0, 0],
+                [0, 0, 1, 0, 0, 0, 0], 
+                [2, 1, 0, 0, 1, 0, 0],
+                [2, 1, 1, 0, 1, 1, 0],
+                [1, 2, 2, 1, 1, 0, 1]
+            ]
+            #newgame3.display
+            win = newgame3.win_check
+            expect(win).to eql(1)
         end
     end
-end
 
+   
+end
 
